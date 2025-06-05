@@ -9,6 +9,19 @@ import { Link } from "react-router-dom";
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [conPassword, setconPassword] = useState(false);
+
+
+  const handleRegisterForm = (e)=> {
+     e.preventDefault();
+      console.log("form submitted");
+      const fullName = e.target.fullname.value;
+      const email = e.target.email.value;
+      const password = e.target.password.value;
+      const confirmPassword = e.target.confirmpassword.value;
+      console.log(fullName, email, password, confirmPassword);
+       
+      
+  }
   return (
     <>
       <section className="w-full h-[600px] bg-gradient-to-l from-fuchsia-200/45 via-sky-200 to-fuchsia-100/45 p-8 flex flex-col items-center">
@@ -22,19 +35,22 @@ const Register = () => {
             </h2>
           </div>
 
-          <form className="flex flex-col items-center gap-3">
+          <form onSubmit={handleRegisterForm}  className="flex flex-col items-center gap-3">
+            {/* fullname */}
             <input
               className="w-[400px] h-8 py-1 px-2 outline-none rounded-sm bg-white/65 backdrop-blur-3xl shadow-2xl"
               type="text"
-              name=""
+              name="fullname"
               id=""
               placeholder="Enter Your Full Name !"
               required
             />
+
+            {/* email */}
             <input
               className="w-[400px] h-8 py-1 px-2 outline-none rounded-sm bg-white/65 backdrop-blur-3xl shadow-2xl"
               type="email"
-              name=""
+              name="email"
               id=""
               placeholder="Enter Your Email !"
               required
@@ -45,7 +61,7 @@ const Register = () => {
               <input
                 className="w-[400px] h-8 py-1 px-2 outline-none rounded-sm bg-white/65 backdrop-blur-3xl shadow-2xl"
                 type={showPassword ? "text" : "password"}
-                name=""
+                name="password"
                 id=""
                 placeholder="Enter Your Password !"
                 required
@@ -69,7 +85,7 @@ const Register = () => {
               <input
                 className="w-[400px] h-8 py-1 px-2 outline-none rounded-sm bg-white/65 backdrop-blur-3xl shadow-2xl"
                 type={conPassword ? "text" : "password"}
-                name=""
+                name="confirmpassword"
                 id=""
                 placeholder="Confirm Your Password !"
                 required
