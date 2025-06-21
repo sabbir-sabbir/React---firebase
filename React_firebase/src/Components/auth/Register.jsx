@@ -3,7 +3,8 @@ import { FiAlertCircle } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 import { VscGithub } from "react-icons/vsc";
 import { BsDashLg } from "react-icons/bs";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import show from "../../assets/openeye.svg"
+import hide from "../../assets/hideeye.svg"
 import { Link } from "react-router-dom";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase/firebase.config";
@@ -90,15 +91,13 @@ const Register = () => {
               />
 
               {showPassword ? (
-                <FaEyeSlash
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 hover:text-green-600"
-                />
+                <span onClick={() => setShowPassword(!showPassword)}
+                  className="absolute  right-3 hover:text-green-600"><img className="w-6 h-6" src={show} alt={show} /></span>
+               
               ) : (
-                <FaEye
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 hover:text-green-600"
-                />
+                <span  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute  right-3 hover:text-green-600"><img className="w-6 h-6" src={hide} alt={show} /></span>
+               
               )}
             </div>
 
@@ -114,15 +113,13 @@ const Register = () => {
                 autoComplete="off"
               />
               {conPassword ? (
-                <FaEyeSlash
-                  onClick={() => setconPassword(!conPassword)}
-                  className="absolute right-3 hover:text-green-600"
-                />
+                <span onClick={() => setconPassword(!conPassword)}
+                  className="absolute right-3 hover:text-green-600"><img className="w-6 h-6" src={show} alt={show} /></span>
+                
               ) : (
-                <FaEye
-                  onClick={() => setconPassword(!conPassword)}
-                  className="absolute right-3 hover:text-green-600"
-                />
+                <span  onClick={() => setconPassword(!conPassword)}
+                  className="absolute right-3 hover:text-green-600"><img className="w-6 h-6" src={hide} alt={hide} /></span>
+                
               )}
             </div>
             <p className="w-full text-right">
