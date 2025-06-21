@@ -22,16 +22,21 @@ const Register = () => {
     const email = e.target.email.value;
     const password = e.target.password.value;
     const confirmPassword = e.target.confirmpassword.value;
-   
 
-    createUserWithPassword(email, password)
-      .then((result) => {
-        const user = result.user;
-        console.log(user)
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    if (password !== confirmPassword) {
+      alert("Incorrect Confirm Password !");
+      return;
+    } else {
+      createUserWithPassword(email, password)
+        .then((result) => {
+          const user = result.user;
+          alert("Your account is created successfuly.")
+          e.target.reset();
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   };
   return (
     <>
@@ -81,6 +86,7 @@ const Register = () => {
                 id="4x1"
                 placeholder="Enter Your Password !"
                 required
+                autoComplete="off"
               />
 
               {showPassword ? (
@@ -105,6 +111,7 @@ const Register = () => {
                 id="4x2"
                 placeholder="Confirm Your Password !"
                 required
+                autoComplete="off"
               />
               {conPassword ? (
                 <FaEyeSlash
