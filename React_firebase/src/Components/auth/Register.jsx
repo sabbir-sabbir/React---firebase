@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { FiAlertCircle } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 import { VscGithub } from "react-icons/vsc";
@@ -7,31 +7,32 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase/firebase.config";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const Register = () => {
+  const { createUserWithPassword } = useContext(AuthContext);
+
   const [showPassword, setShowPassword] = useState(false);
   const [conPassword, setconPassword] = useState(false);
 
+  const handleRegisterForm = (e) => {
+    e.preventDefault();
+    console.log("form submitted");
+    const fullName = e.target.fullname.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const confirmPassword = e.target.confirmpassword.value;
+   
 
-  const handleRegisterForm = (e)=> {
-     e.preventDefault();
-      console.log("form submitted");
-      const fullName = e.target.fullname.value;
-      const email = e.target.email.value;
-      const password = e.target.password.value;
-      const confirmPassword = e.target.confirmpassword.value;
-      console.log(fullName, email, password, confirmPassword);
-
-      createUserWithEmailAndPassword(auth, email, password)
-      .then(result=> {
+    createUserWithPassword(email, password)
+      .then((result) => {
         const user = result.user;
+        console.log(user)
       })
-      .catch((err)=> {
+      .catch((err) => {
         console.error(err);
-      })
-       
-      
-  }
+      });
+  };
   return (
     <>
       <section className="w-full h-[600px] bg-gradient-to-l from-fuchsia-200/45 via-sky-200 to-fuchsia-100/45 p-8 flex flex-col items-center">
@@ -45,15 +46,19 @@ const Register = () => {
             </h2>
           </div>
 
-          <form onSubmit={handleRegisterForm}  className="flex flex-col items-center gap-3">
+          <form
+            onSubmit={handleRegisterForm}
+            className="flex flex-col items-center gap-3"
+          >
             {/* fullname */}
             <input
               className="w-[400px] h-8 py-1 px-2 outline-none rounded-sm bg-white/65 backdrop-blur-3xl shadow-2xl"
               type="text"
               name="fullname"
-              id=""
+              id="4x3"
               placeholder="Enter Your Full Name !"
               required
+              autoComplete="off"
             />
 
             {/* email */}
@@ -61,9 +66,10 @@ const Register = () => {
               className="w-[400px] h-8 py-1 px-2 outline-none rounded-sm bg-white/65 backdrop-blur-3xl shadow-2xl"
               type="email"
               name="email"
-              id=""
+              id="4x0"
               placeholder="Enter Your Email !"
               required
+              autoComplete="off"
             />
 
             {/* password */}
@@ -72,7 +78,7 @@ const Register = () => {
                 className="w-[400px] h-8 py-1 px-2 outline-none rounded-sm bg-white/65 backdrop-blur-3xl shadow-2xl"
                 type={showPassword ? "text" : "password"}
                 name="password"
-                id=""
+                id="4x1"
                 placeholder="Enter Your Password !"
                 required
               />
@@ -96,7 +102,7 @@ const Register = () => {
                 className="w-[400px] h-8 py-1 px-2 outline-none rounded-sm bg-white/65 backdrop-blur-3xl shadow-2xl"
                 type={conPassword ? "text" : "password"}
                 name="confirmpassword"
-                id=""
+                id="4x2"
                 placeholder="Confirm Your Password !"
                 required
               />
