@@ -5,6 +5,8 @@ import { VscGithub } from "react-icons/vsc";
 import { BsDashLg } from "react-icons/bs";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase/firebase.config";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,6 +21,14 @@ const Register = () => {
       const password = e.target.password.value;
       const confirmPassword = e.target.confirmpassword.value;
       console.log(fullName, email, password, confirmPassword);
+
+      createUserWithEmailAndPassword(auth, email, password)
+      .then(result=> {
+        const user = result.user;
+      })
+      .catch((err)=> {
+        console.error(err);
+      })
        
       
   }
