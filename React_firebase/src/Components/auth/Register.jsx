@@ -9,7 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   getAuth,
   createUserWithEmailAndPassword,
-  GoogleAuthProvider,
+  GoogleAuthProvider
 } from "firebase/auth";
 import { auth } from "../../firebase/firebase.config";
 import { AuthContext } from "../../providers/AuthProvider";
@@ -18,15 +18,15 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [conPassword, setconPassword] = useState(false);
 
-  const { createUserWithPassword, signInWithGoogle } = useContext(AuthContext);
-  const provider = new GoogleAuthProvider();
+  const { createUserWithPassword, signInWithGoogle} = useContext(AuthContext);
+  const Provider = new GoogleAuthProvider();
   const naviagate = useNavigate();
   const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
 
   // register with google
   const handleRegisterWithGoogle = () => {
     // sign in with google
-    signInWithGoogle(provider)
+    signInWithGoogle(Provider)
       .then((result) => {
         const user = result.user;
         console.log(user);
@@ -189,20 +189,7 @@ const Register = () => {
               <BsDashLg /> <span className="font-rubik">Register by</span>{" "}
               <BsDashLg />{" "}
             </div>
-            <div className=" w-full flex flex-col items-center gap-2">
-              <button className=" font-rubik w-full py-1 px-2 rounded-sm flex items-center justify-center gap-2 bg-white">
-                Register With{" "}
-                <span>
-                  <FcGoogle size={22} />
-                </span>
-              </button>
-              <button className=" font-rubik w-full py-1 px-2 rounded-sm justify-center flex items-center gap-2 bg-white">
-                Register With{" "}
-                <span>
-                  <VscGithub size={22} />
-                </span>
-              </button>
-            </div>
+            
             <div>
               <p className="text-[14px]">
                 Already have an account?{" "}
@@ -215,6 +202,20 @@ const Register = () => {
               </p>
             </div>
           </form>
+          <div className=" w-full flex flex-col items-center gap-2">
+              <button onClick={handleRegisterWithGoogle} className=" font-rubik w-full py-1 px-2 rounded-sm flex items-center justify-center gap-2 bg-white">
+                Register With{" "}
+                <span>
+                  <FcGoogle size={22} />
+                </span>
+              </button>
+              <button className=" font-rubik w-full py-1 px-2 rounded-sm justify-center flex items-center gap-2 bg-white">
+                Register With{" "}
+                <span>
+                  <VscGithub size={22} />
+                </span>
+              </button>
+            </div>
         </div>
       </section>
     </>
