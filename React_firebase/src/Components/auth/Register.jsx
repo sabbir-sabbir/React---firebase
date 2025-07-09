@@ -3,42 +3,76 @@ import { FiAlertCircle } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 import { VscGithub } from "react-icons/vsc";
 import { BsDashLg } from "react-icons/bs";
-import show from "../../assets/openeye.svg"
-import hide from "../../assets/hideeye.svg"
-import { Link } from "react-router-dom";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import show from "../../assets/openeye.svg";
+import hide from "../../assets/hideeye.svg";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+} from "firebase/auth";
 import { auth } from "../../firebase/firebase.config";
 import { AuthContext } from "../../providers/AuthProvider";
 
 const Register = () => {
-  const { createUserWithPassword } = useContext(AuthContext);
-
   const [showPassword, setShowPassword] = useState(false);
   const [conPassword, setconPassword] = useState(false);
+
+  const { createUserWithPassword, signInWithGoogle } = useContext(AuthContext);
+  const provider = new GoogleAuthProvider();
+  const naviagate = useNavigate();
+  const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+
+  // register with google
+  const handleRegisterWithGoogle = () => {
+    // sign in with google
+    signInWithGoogle(provider)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   const handleRegisterForm = (e) => {
     e.preventDefault();
     console.log("form submitted");
+
     const fullName = e.target.fullname.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
     const confirmPassword = e.target.confirmpassword.value;
 
+    // passwords match
     if (password !== confirmPassword) {
-      alert("Incorrect Confirm Password !");
+      alert("Incorrect Confirm Password!");
       return;
-    } else {
-      createUserWithPassword(email, password)
-        .then((result) => {
-          const user = result.user;
-          alert("Your account is created successfuly.")
-          e.target.reset();
-        })
-        .catch((err) => {
-          console.error(err);
-        });
     }
+
+    // Check password strength
+    if (!regexPassword.test(confirmPassword)) {
+      alert("Try stronger password!");
+      return;
+    }
+
+    // account creation
+    createUserWithPassword(email, password)
+      .then((result) => {
+        const user = result.user;
+        alert("Your account is created successfully.");
+        e.target.reset();
+
+        setTimeout(() => {
+          navigate("/auth/login");
+        }, 1000);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
+
   return (
     <>
       <section className="w-full h-[600px] bg-gradient-to-l from-fuchsia-200/45 via-sky-200 to-fuchsia-100/45 p-8 flex flex-col items-center">
@@ -91,13 +125,19 @@ const Register = () => {
               />
 
               {showPassword ? (
-                <span onClick={() => setShowPassword(!showPassword)}
-                  className="absolute  right-3 hover:text-green-600"><img className="w-6 h-6" src={show} alt={show} /></span>
-               
+                <span
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute  right-3 hover:text-green-600"
+                >
+                  <img className="w-6 h-6" src={show} alt={show} />
+                </span>
               ) : (
-                <span  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute  right-3 hover:text-green-600"><img className="w-6 h-6" src={hide} alt={show} /></span>
-               
+                <span
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute  right-3 hover:text-green-600"
+                >
+                  <img className="w-6 h-6" src={hide} alt={show} />
+                </span>
               )}
             </div>
 
@@ -113,13 +153,19 @@ const Register = () => {
                 autoComplete="off"
               />
               {conPassword ? (
-                <span onClick={() => setconPassword(!conPassword)}
-                  className="absolute right-3 hover:text-green-600"><img className="w-6 h-6" src={show} alt={show} /></span>
-                
+                <span
+                  onClick={() => setconPassword(!conPassword)}
+                  className="absolute right-3 hover:text-green-600"
+                >
+                  <img className="w-6 h-6" src={show} alt={show} />
+                </span>
               ) : (
-                <span  onClick={() => setconPassword(!conPassword)}
-                  className="absolute right-3 hover:text-green-600"><img className="w-6 h-6" src={hide} alt={hide} /></span>
-                
+                <span
+                  onClick={() => setconPassword(!conPassword)}
+                  className="absolute right-3 hover:text-green-600"
+                >
+                  <img className="w-6 h-6" src={hide} alt={hide} />
+                </span>
               )}
             </div>
             <p className="w-full text-right">
